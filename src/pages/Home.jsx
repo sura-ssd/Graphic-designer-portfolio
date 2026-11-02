@@ -4,7 +4,8 @@ import { usePageMeta } from '../lib/seo'
 import { Gallery } from '../components/Gallery'
 
 export default function Home() {
-  const { works, loading, error } = useWorks({ featuredOnly: true, limit: 6 })
+  const { works, loading, error } = useWorks({ featuredFirst: true, limit: 6 })
+  const heroWorks = works.slice(0, 3)
   usePageMeta('Graphic Designer', 'Hermela Bereket is a graphic designer and Information Science graduate creating thoughtful visual identities and digital experiences.')
 
   return (
@@ -19,14 +20,34 @@ export default function Home() {
             <Link className="hero-about-link" to="/about">A little about me <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
-        <div className="hero-art" aria-label="Abstract artwork in warm colors" role="img">
-          <div className="hero-art-top"><span>Selected studies</span><span>HB — 01</span></div>
-          <div className="hero-art-circle" />
-          <div className="hero-art-shape" />
-          <div className="hero-art-orbit" />
-          <span className="hero-art-caption">Form follows<br />feeling.</span>
-          <span className="hero-art-stamp">H<br />B</span>
-          <span className="hero-art-label">Color / form / feeling</span>
+        <div className={`hero-art ${loading ? 'is-loading' : ''}`} aria-label="Selected portfolio designs">
+          <div className="hero-art-top"><span>Selected designs</span><span>HB — 01</span></div>
+          {heroWorks.length > 0 ? (
+            <div className={`hero-design-stack count-${heroWorks.length}`}>
+              {heroWorks.map((work, index) => (
+                <Link
+                  className={`hero-design-card hero-design-card-${index + 1}`}
+                  key={work.id}
+                  to="/works"
+                  aria-label={`View ${work.title} in the portfolio`}
+                >
+                  <img src={work.image_url} alt={work.title} fetchPriority={index === 0 ? 'high' : undefined} />
+                  <span className="hero-design-title">{work.title}</span>
+                </Link>
+              ))}
+            </div>
+          ) : loading ? (
+            <div className="hero-design-loading" aria-label="Loading selected designs">
+              <span /><span /><span />
+            </div>
+          ) : (
+            <div className="hero-design-empty">
+              <span className="hero-art-stamp">H<br />B</span>
+              <strong>{error ? 'A new collection is on its way.' : 'The first designs are on their way.'}</strong>
+              <span>Selected work will appear here.</span>
+            </div>
+          )}
+          <span className="hero-art-label">{heroWorks.length ? `${heroWorks.length} selected ${heroWorks.length === 1 ? 'project' : 'projects'}` : 'Visual stories, made with intention'}</span>
         </div>
         <div className="hero-bottom">
           <span>Independent designer creating with intention.</span>
@@ -39,7 +60,7 @@ export default function Home() {
           <div><span className="eyebrow">A few things I&apos;ve made</span><h2>Selected <em>work</em></h2></div>
           <Link className="text-link" to="/works">View all projects <span aria-hidden="true">↗</span></Link>
         </div>
-        <Gallery works={works} loading={loading} error={error} featured />
+        <Gallery works={works.filter((work) => work.featured)} loading={loading} error={error} featured />
       </section>
 
       <section className="intro-band">

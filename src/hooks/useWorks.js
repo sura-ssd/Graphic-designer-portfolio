@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useToast } from '../components/ToastProvider'
 import { requireSupabase } from '../lib/supabaseClient'
 
-export function useWorks({ featuredOnly = false, limit } = {}) {
+export function useWorks({ featuredOnly = false, featuredFirst = false, limit } = {}) {
   const [works, setWorks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -15,7 +15,9 @@ export function useWorks({ featuredOnly = false, limit } = {}) {
     setError('')
     const request = Promise.resolve().then(async () => {
       try {
-        let query = requireSupabase().from('works').select('*').order('created_at', { ascending: false })
+        let query = requireSupabase().from('works').select('*')
+        if (featuredFirst) query = query.order('featured', { ascending: false })
+        query = query.order('created_at', { ascending: false })
         if (featuredOnly) query = query.eq('featured', true)
         if (limit) query = query.limit(limit)
         const { data, error: requestError } = await query
@@ -33,7 +35,7 @@ export function useWorks({ featuredOnly = false, limit } = {}) {
     })
     inFlight.current = request
     return request
-  }, [featuredOnly, limit, toast])
+  }, [featuredOnly, featuredFirst, limit, toast])
 
   useEffect(() => {
     refresh()
