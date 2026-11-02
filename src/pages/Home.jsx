@@ -11,20 +11,25 @@ export default function Home() {
     <>
       <section className="hero section-wrap">
         <div className="hero-copy">
-          <span className="eyebrow"><span className="status-dot" /> Independent designer · Ethiopia</span>
-          <h1>Ideas made<br /><em>visible.</em></h1>
-          <p className="hero-intro">I&apos;m Hermela Bereket, a graphic designer who brings clarity, character, and care to every detail.</p>
-          <Link className="button button-dark" to="/works">Explore my work <span aria-hidden="true">↗</span></Link>
+          <span className="eyebrow"><span className="status-dot" /> Graphic Designer · Ethiopia</span>
+          <h1>Designing<br />ideas into<br /><em>feeling.</em></h1>
+          <p className="hero-intro">I&apos;m Hermela Bereket. I turn thoughtful ideas into visual stories with clarity, character, and a little unexpected color.</p>
+          <div className="hero-actions">
+            <Link className="button button-dark" to="/works">Explore my work <span aria-hidden="true">↗</span></Link>
+            <Link className="hero-about-link" to="/about">A little about me <span aria-hidden="true">↗</span></Link>
+          </div>
         </div>
         <div className="hero-art" aria-label="Abstract artwork in warm colors" role="img">
+          <div className="hero-art-top"><span>Selected studies</span><span>HB — 01</span></div>
           <div className="hero-art-circle" />
           <div className="hero-art-shape" />
           <div className="hero-art-orbit" />
-          <span className="hero-art-caption">Form follows feeling<br />HB — 2025</span>
+          <span className="hero-art-caption">Form follows<br />feeling.</span>
           <span className="hero-art-stamp">H<br />B</span>
+          <span className="hero-art-label">Color / form / feeling</span>
         </div>
         <div className="hero-bottom">
-          <span>Thoughtful design, made with intention.</span>
+          <span>Independent designer creating with intention.</span>
           <a href="#selected-work" aria-label="Scroll to selected work"><span className="scroll-line" /> Scroll to explore</a>
         </div>
       </section>
