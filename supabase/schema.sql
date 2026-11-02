@@ -20,13 +20,58 @@ create table if not exists public.messages (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.categories (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  position integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create unique index if not exists categories_name_lower_key
+  on public.categories (lower(name));
+
+insert into public.categories (name, position)
+select defaults.name, defaults.position
+from (values
+  ('Branding', 0),
+  ('Posters', 1),
+  ('Social Media', 2),
+  ('Logos', 3),
+  ('Illustration', 4),
+  ('UI Design', 5),
+  ('Other', 6)
+) as defaults(name, position)
+where not exists (
+  select 1
+  from public.categories existing
+  where lower(existing.name) = lower(defaults.name)
+);
+
 alter table public.works enable row level security;
 alter table public.messages enable row level security;
+alter table public.categories enable row level security;
 
 grant select on public.works to anon, authenticated;
 grant insert, update, delete on public.works to authenticated;
 grant insert on public.messages to anon, authenticated;
 grant select, update, delete on public.messages to authenticated;
+grant select on public.categories to anon, authenticated;
+grant insert, delete on public.categories to authenticated;
+
+drop policy if exists "Anyone can view categories" on public.categories;
+create policy "Anyone can view categories"
+  on public.categories for select
+  using (true);
+
+drop policy if exists "Authenticated users can add categories" on public.categories;
+create policy "Authenticated users can add categories"
+  on public.categories for insert to authenticated
+  with check (true);
+
+drop policy if exists "Authenticated users can delete categories" on public.categories;
+create policy "Authenticated users can delete categories"
+  on public.categories for delete to authenticated
+  using (true);
 
 drop policy if exists "Anyone can view works" on public.works;
 create policy "Anyone can view works"

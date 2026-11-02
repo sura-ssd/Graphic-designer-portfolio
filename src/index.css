@@ -756,3 +756,58 @@ body { background: var(--paper); }
   .hero-design-title { padding: 20px 7px 6px; font-size: 8px; }
   .hero-design-empty { padding: 18px; }
 }
+
+.category-manager { margin-top: 20px; }
+.category-add-form { display: flex; gap: 10px; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+.category-add-form input {
+  width: min(100%, 360px);
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 11px;
+}
+.category-add-form input:focus { border-color: var(--accent); }
+.category-add-form .button { min-height: 42px; gap: 12px; font-size: 10px; }
+.category-manager-list { display: flex; flex-wrap: wrap; gap: 9px; margin: 0; padding: 18px 22px; list-style: none; }
+.category-manager-list li { display: inline-flex; align-items: center; gap: 10px; padding: 5px 6px 5px 10px; border: 1px solid var(--line); border-radius: 999px; }
+.category-manager-list .category-chip { padding: 0; border: 0; color: var(--ink); }
+.category-manager-list button { padding: 4px 8px; border: 0; border-radius: 999px; background: transparent; color: #aa4d40; font-size: 9px; cursor: pointer; }
+.category-manager-list button:hover { background: rgba(170,77,64,.1); }
+.category-manager-empty { margin: 0; padding: 18px 22px; color: var(--muted); font-size: 11px; }
+.category-form-note { color: var(--muted); font-size: 10px; font-weight: 400; }
+:root[data-theme='dark'] .category-add-form { border-color: var(--line); }
+:root[data-theme='dark'] .category-add-form input { border-color: var(--line); }
+
+@media (max-width: 640px) {
+  .category-add-form { align-items: stretch; padding: 14px; }
+  .category-add-form input { min-width: 0; }
+  .category-add-form .button { flex: 0 0 auto; padding-inline: 12px; }
+  .category-manager-list { gap: 7px; padding: 14px; }
+}
+
+.hero-art {
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+.hero-art::before { display: none; }
+.hero-art-top { color: rgba(251,248,242,.68); }
+.hero-art-label { color: rgba(251,248,242,.68); }
+.hero-design-card { border: 0; }
+.hero-design-card-1 { left: 5%; }
+.hero-design-card-2 { right: 2%; }
+.hero-design-card-3 { right: 6%; }
+.hero-design-stack.count-1 .hero-design-card-1 { left: 13%; }
+.hero-design-stack.count-2 .hero-design-card-1 { left: 5%; }
+.hero-design-stack.count-2 .hero-design-card-2 { right: 2%; }
+.hero-design-empty { color: #24231f; }
+
+@media (max-width: 640px) {
+  .hero-art { overflow: visible; }
+}

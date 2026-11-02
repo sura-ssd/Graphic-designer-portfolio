@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import AdminLayout from '../../components/AdminLayout'
+import CategoryManager from '../../components/CategoryManager'
 import { useToast } from '../../components/ToastProvider'
 import { useWorks } from '../../hooks/useWorks'
 import { getPortfolioImagePath, requireSupabase } from '../../lib/supabaseClient'
@@ -49,6 +50,7 @@ export default function Dashboard() {
           </div>
         ) : <div className="admin-empty"><span className="eyebrow">A blank canvas</span><h2>Your first project starts here.</h2><p>Add a piece of work and it will appear in your public portfolio.</p><Link className="button button-dark" to="/admin/works/new">Add your first project <span aria-hidden="true">↗</span></Link></div>}
       </section>
+      <CategoryManager />
     </AdminLayout>
   )
 }

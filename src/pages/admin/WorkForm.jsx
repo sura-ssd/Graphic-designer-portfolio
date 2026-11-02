@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import AdminLayout from '../../components/AdminLayout'
-import { CATEGORIES } from '../../components/Gallery'
 import { useToast } from '../../components/ToastProvider'
+import { useCategories } from '../../hooks/useCategories'
 import { getPortfolioImagePath, requireSupabase } from '../../lib/supabaseClient'
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024
@@ -13,6 +13,7 @@ export default function WorkForm() {
   const isEditing = Boolean(id)
   const navigate = useNavigate()
   const toast = useToast()
+  const { categories, loading: categoriesLoading } = useCategories()
   const fileInput = useRef(null)
   const [form, setForm] = useState({ title: '', description: '', category: '', featured: false, image_url: '' })
   const [selectedFile, setSelectedFile] = useState(null)
@@ -129,7 +130,7 @@ export default function WorkForm() {
             <div className="panel-heading"><div><h2>Project details</h2><p>Give this piece a name and a little context.</p></div></div>
             <label>Project title<input required maxLength={160} value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} /></label>
             <label>Description <span className="optional-label">Optional</span><textarea rows="6" maxLength={4000} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
-            <label>Category<select required value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}><option value="" disabled>Select a category</option>{CATEGORIES.map((category) => <option value={category} key={category}>{category}</option>)}</select></label>
+            <label>Category<select required value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}><option value="" disabled>{categoriesLoading ? 'Loading categories…' : 'Select a category'}</option>{categories.map((category) => <option value={category.name} key={category.id}>{category.name}</option>)}</select>{!categoriesLoading && categories.length === 0 && <span className="category-form-note">No categories yet. Add one from the dashboard.</span>}</label>
             <label className="featured-toggle"><span><strong>Feature this project</strong><small>Show it in the featured work section on your home page.</small></span><input type="checkbox" checked={form.featured} onChange={(event) => setForm({ ...form, featured: event.target.checked })} /></label>
           </section>
           <section className="admin-panel editor-panel">

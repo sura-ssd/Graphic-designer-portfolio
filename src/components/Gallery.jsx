@@ -1,13 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import WorkCard from './WorkCard'
 import Lightbox from './Lightbox'
-
-export const CATEGORIES = ['Branding', 'Posters', 'Social Media', 'Logos', 'Illustration', 'UI Design', 'Other']
+import { useCategories } from '../hooks/useCategories'
 
 export function Gallery({ works, loading, error = '', featured = false }) {
   const [category, setCategory] = useState('All')
   const [selectedWork, setSelectedWork] = useState(null)
-  const categories = useMemo(() => ['All', ...CATEGORIES], [])
+  const { categories: managedCategories } = useCategories()
+  const categories = ['All', ...managedCategories.map((item) => item.name)]
   const visibleWorks = category === 'All' ? works : works.filter((work) => work.category === category)
 
   if (loading) {
