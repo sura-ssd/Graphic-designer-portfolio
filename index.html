@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f5f3ef" />
+    <script>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('hermela-theme') === 'dark' ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
     <meta name="description" content="Hermela Bereket is a graphic designer creating thoughtful visual identities, digital experiences, and print design." />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Hermela Bereket — Graphic Designer" />

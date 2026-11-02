@@ -9,12 +9,14 @@ A responsive graphic-design portfolio with a public gallery and a Supabase-authe
 ├── .env.example
 ├── .gitignore
 ├── index.html
+├── netlify.toml
 ├── package-lock.json
 ├── package.json
 ├── postcss.config.js
 ├── README.md
 ├── tailwind.config.js
 ├── vite.config.js
+├── vercel.json
 ├── supabase/
 │   └── schema.sql
 └── src/
@@ -29,9 +31,11 @@ A responsive graphic-design portfolio with a public gallery and a Supabase-authe
     │   ├── Navbar.jsx
     │   ├── ProtectedRoute.jsx
     │   ├── ToastProvider.jsx
+    │   ├── ThemeToggle.jsx
     │   └── WorkCard.jsx
     ├── context/
-    │   └── AuthContext.jsx
+    │   ├── AuthContext.jsx
+    │   └── ThemeContext.jsx
     ├── hooks/
     │   └── useWorks.js
     ├── lib/
@@ -77,4 +81,4 @@ The policies allow public portfolio reads and contact submissions, while work ch
 
 ## Deploy
 
-Import the project into Vercel or Netlify, set the two `VITE_SUPABASE_*` environment variables in the deployment settings, and deploy with build command `npm run build` and output directory `dist`. Configure the host to rewrite application routes to `index.html` so React Router routes work on direct visits.
+Import the project into Vercel or Netlify, set the two `VITE_SUPABASE_*` environment variables in the deployment settings, and deploy with build command `npm run build` and output directory `dist`. The included [`vercel.json`](./vercel.json) and [`netlify.toml`](./netlify.toml) configure SPA rewrites to `index.html`, so refreshing routes such as `/works` and `/admin/login` returns the app instead of the host's 404 page. If the site was already deployed, commit and redeploy these configuration files.

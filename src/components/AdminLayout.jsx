@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from './ToastProvider'
+import ThemeToggle from './ThemeToggle'
 
 export default function AdminLayout({ children, title, action }) {
   const { signOut, user } = useAuth()
@@ -32,7 +33,7 @@ export default function AdminLayout({ children, title, action }) {
         </div>
       </aside>
       <main className="admin-main">
-        <header className="admin-topbar"><span>Hermela Bereket <span>/</span> Studio</span><span className="admin-topbar-status"><i /> Admin space</span></header>
+        <header className="admin-topbar"><span>Hermela Bereket <span>/</span> Studio</span><div className="admin-topbar-actions"><ThemeToggle /><span className="admin-topbar-status"><i /> Admin space</span></div></header>
         <div className="admin-content">
           <div className="admin-heading"><div><span className="eyebrow">Your creative space</span><h1>{title}</h1></div>{action}</div>
           {children}

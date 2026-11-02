@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import ThemeToggle from './ThemeToggle'
 
 const links = [
   { to: '/works', label: 'Work' },
@@ -26,6 +27,7 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
+          <ThemeToggle />
           <Link className="nav-cta" to="/contact" onClick={() => setOpen(false)}>Let&apos;s talk <span aria-hidden="true">↗</span></Link>
         </div>
       </nav>
