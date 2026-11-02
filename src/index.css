@@ -789,6 +789,27 @@ body { background: var(--paper); }
   .category-manager-list { gap: 7px; padding: 14px; }
 }
 
+.admin-nav-link .admin-nav-label { width: auto; }
+.admin-nav-link .unread-badge {
+  display: inline-flex;
+  min-width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}
+:root[data-theme='dark'] .admin-nav-link .unread-badge { color: #171a18; }
+@media (max-width: 640px) {
+  .admin-nav-link .unread-badge { min-width: 18px; height: 18px; padding-inline: 5px; }
+}
+
 .hero-art {
   overflow: visible;
   border: 0;

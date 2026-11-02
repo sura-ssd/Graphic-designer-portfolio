@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import AdminLayout from '../../components/AdminLayout'
 import { useToast } from '../../components/ToastProvider'
+import { notifyUnreadMessagesChanged } from '../../hooks/useUnreadMessages'
 import { requireSupabase } from '../../lib/supabaseClient'
 
 export default function Messages() {
@@ -28,6 +29,7 @@ export default function Messages() {
       const { error } = await requireSupabase().from('messages').update(updates).eq('id', message.id)
       if (error) throw error
       setMessages((current) => current.map((item) => item.id === message.id ? { ...item, ...updates } : item))
+      notifyUnreadMessagesChanged()
       toast(updates.is_read ? 'Marked as read.' : 'Marked as unread.')
     } catch (error) {
       toast(error instanceof Error ? error.message : 'Unable to update this message.', 'error')
@@ -40,6 +42,7 @@ export default function Messages() {
       const { error } = await requireSupabase().from('messages').delete().eq('id', message.id)
       if (error) throw error
       setMessages((current) => current.filter((item) => item.id !== message.id))
+      notifyUnreadMessagesChanged()
       toast('Message deleted.')
     } catch (error) {
       toast(error instanceof Error ? error.message : 'Unable to delete this message.', 'error')

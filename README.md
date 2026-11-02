@@ -39,6 +39,7 @@ A responsive graphic-design portfolio with a public gallery and a Supabase-authe
     │   └── ThemeContext.jsx
     ├── hooks/
     │   ├── useCategories.js
+    │   ├── useUnreadMessages.js
     │   └── useWorks.js
     ├── lib/
     │   ├── seo.js

@@ -2,11 +2,13 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from './ToastProvider'
 import ThemeToggle from './ThemeToggle'
+import { useUnreadMessages } from '../hooks/useUnreadMessages'
 
 export default function AdminLayout({ children, title, action }) {
   const { signOut, user } = useAuth()
   const toast = useToast()
   const navigate = useNavigate()
+  const unreadCount = useUnreadMessages()
 
   const handleLogout = async () => {
     try {
@@ -24,7 +26,7 @@ export default function AdminLayout({ children, title, action }) {
         <div className="admin-side-label">Workspace</div>
         <nav className="admin-nav" aria-label="Admin navigation">
           <NavLink end to="/admin" className={({ isActive }) => isActive ? 'admin-nav-link active' : 'admin-nav-link'}><span aria-hidden="true">▦</span> Projects</NavLink>
-          <NavLink to="/admin/messages" className={({ isActive }) => isActive ? 'admin-nav-link active' : 'admin-nav-link'}><span aria-hidden="true">✉</span> Messages</NavLink>
+          <NavLink to="/admin/messages" className={({ isActive }) => isActive ? 'admin-nav-link active' : 'admin-nav-link'}><span aria-hidden="true">✉</span><span className="admin-nav-label">Messages</span>{unreadCount > 0 && <span className="unread-badge" aria-label={`${unreadCount} unread messages`}>{unreadCount > 99 ? '99+' : unreadCount}</span>}</NavLink>
         </nav>
         <div className="admin-sidebar-bottom">
           <span className="admin-user">{user?.email}</span>
