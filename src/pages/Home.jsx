@@ -4,8 +4,8 @@ import { usePageMeta } from '../lib/seo'
 import { Gallery } from '../components/Gallery'
 
 export default function Home() {
-  const { works, loading, error } = useWorks({ featuredFirst: true, limit: 6 })
-  const heroWorks = works.slice(0, 3)
+  const { works, loading, error } = useWorks({ featuredOnly: true, limit: 6 })
+  const { works: heroWorks, loading: heroLoading, error: heroError } = useWorks({ heroOnly: true, limit: 3 })
   usePageMeta('Graphic Designer', 'Hermela Bereket is a graphic designer and Information Science graduate creating thoughtful visual identities and digital experiences.')
 
   return (
@@ -20,7 +20,7 @@ export default function Home() {
             <Link className="hero-about-link" to="/about">A little about me <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
-        <div className={`hero-art ${loading ? 'is-loading' : ''}`} aria-label="Selected portfolio designs">
+        <div className={`hero-art ${heroLoading ? 'is-loading' : ''}`} aria-label="Selected portfolio designs">
           <div className="hero-art-top"><span>Selected designs</span><span>HB — 01</span></div>
           {heroWorks.length > 0 ? (
             <div className={`hero-design-stack count-${heroWorks.length}`}>
@@ -36,14 +36,14 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-          ) : loading ? (
+          ) : heroLoading ? (
             <div className="hero-design-loading" aria-label="Loading selected designs">
               <span /><span /><span />
             </div>
           ) : (
             <div className="hero-design-empty">
               <span className="hero-art-stamp">H<br />B</span>
-              <strong>{error ? 'A new collection is on its way.' : 'The first designs are on their way.'}</strong>
+              <strong>{heroError ? 'A new collection is on its way.' : 'The first designs are on their way.'}</strong>
               <span>Selected work will appear here.</span>
             </div>
           )}

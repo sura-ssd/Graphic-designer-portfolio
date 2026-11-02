@@ -8,8 +8,12 @@ create table if not exists public.works (
   image_url text not null,
   images text[] not null default '{}',
   featured boolean not null default false,
+  hero_featured boolean not null default false,
   created_at timestamptz not null default now()
 );
+
+alter table public.works
+  add column if not exists hero_featured boolean not null default false;
 
 create table if not exists public.messages (
   id uuid primary key default gen_random_uuid(),

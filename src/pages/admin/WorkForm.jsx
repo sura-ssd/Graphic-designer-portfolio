@@ -15,7 +15,7 @@ export default function WorkForm() {
   const toast = useToast()
   const { categories, loading: categoriesLoading } = useCategories()
   const fileInput = useRef(null)
-  const [form, setForm] = useState({ title: '', description: '', category: '', featured: false, image_url: '' })
+  const [form, setForm] = useState({ title: '', description: '', category: '', featured: false, hero_featured: false, image_url: '' })
   const [selectedFile, setSelectedFile] = useState(null)
   const [previewUrl, setPreviewUrl] = useState('')
   const [loading, setLoading] = useState(isEditing)
@@ -29,7 +29,7 @@ export default function WorkForm() {
         const { data, error } = await requireSupabase().from('works').select('*').eq('id', id).single()
         if (!active) return
         if (error) throw error
-        setForm({ title: data.title ?? '', description: data.description ?? '', category: data.category ?? '', featured: Boolean(data.featured), image_url: data.image_url ?? '' })
+        setForm({ title: data.title ?? '', description: data.description ?? '', category: data.category ?? '', featured: Boolean(data.featured), hero_featured: Boolean(data.hero_featured), image_url: data.image_url ?? '' })
         setLoading(false)
       } catch (error) {
         if (!active) return
@@ -79,6 +79,19 @@ export default function WorkForm() {
     let uploadedPath = null
     try {
       client = requireSupabase()
+      if (form.hero_featured) {
+        let heroCountQuery = client
+          .from('works')
+          .select('id', { count: 'exact', head: true })
+          .eq('hero_featured', true)
+        if (isEditing) heroCountQuery = heroCountQuery.neq('id', id)
+        const { count, error: countError } = await heroCountQuery
+        if (countError) throw countError
+        if ((count ?? 0) >= 3) {
+          toast('Choose up to 3 projects for the home page hero. Remove another project from the hero first.', 'error')
+          return
+        }
+      }
       let imageUrl = form.image_url
       if (selectedFile) {
         const extension = selectedFile.name.split('.').pop()?.toLowerCase() || 'jpg'
@@ -93,6 +106,7 @@ export default function WorkForm() {
         description: form.description.trim(),
         category: form.category,
         featured: form.featured,
+        hero_featured: form.hero_featured,
         image_url: imageUrl,
       }
       const { error } = isEditing
@@ -132,6 +146,7 @@ export default function WorkForm() {
             <label>Description <span className="optional-label">Optional</span><textarea rows="6" maxLength={4000} value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
             <label>Category<select required value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })}><option value="" disabled>{categoriesLoading ? 'Loading categories…' : 'Select a category'}</option>{categories.map((category) => <option value={category.name} key={category.id}>{category.name}</option>)}</select>{!categoriesLoading && categories.length === 0 && <span className="category-form-note">No categories yet. Add one from the dashboard.</span>}</label>
             <label className="featured-toggle"><span><strong>Feature this project</strong><small>Show it in the featured work section on your home page.</small></span><input type="checkbox" checked={form.featured} onChange={(event) => setForm({ ...form, featured: event.target.checked })} /></label>
+            <label className="featured-toggle"><span><strong>Show in home page hero</strong><small>Select up to 3 projects for the home page hero collage.</small></span><input type="checkbox" checked={form.hero_featured} onChange={(event) => setForm({ ...form, hero_featured: event.target.checked })} /></label>
           </section>
           <section className="admin-panel editor-panel">
             <div className="panel-heading"><div><h2>Cover image</h2><p>JPG, PNG, WebP, or GIF · up to 5 MB</p></div></div>

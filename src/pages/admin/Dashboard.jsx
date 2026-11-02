@@ -36,12 +36,13 @@ export default function Dashboard() {
         {loading ? <div className="admin-loading" role="status">Loading your projects…</div> : works.length ? (
           <div className="admin-table-wrap">
             <table className="admin-table">
-              <thead><tr><th>Project</th><th>Category</th><th>Featured</th><th>Date</th><th><span className="sr-only">Actions</span></th></tr></thead>
+              <thead><tr><th>Project</th><th>Category</th><th>Featured</th><th>Home hero</th><th>Date</th><th><span className="sr-only">Actions</span></th></tr></thead>
               <tbody>{works.map((work) => (
                 <tr key={work.id}>
                   <td><div className="table-project"><img src={work.image_url} alt="" /><strong>{work.title}</strong></div></td>
                   <td><span className="category-chip">{work.category}</span></td>
                   <td><span className={`feature-status ${work.featured ? 'is-featured' : ''}`}>{work.featured ? 'Featured' : '—'}</span></td>
+                  <td><span className={`feature-status ${work.hero_featured ? 'is-featured' : ''}`}>{work.hero_featured ? 'In hero' : '—'}</span></td>
                   <td>{new Date(work.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</td>
                   <td><div className="table-actions"><Link to={`/admin/works/${work.id}/edit`} aria-label={`Edit ${work.title}`}>Edit</Link><button type="button" onClick={() => removeWork(work)} aria-label={`Delete ${work.title}`}>Delete</button></div></td>
                 </tr>
