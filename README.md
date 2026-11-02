@@ -60,7 +60,7 @@ A responsive graphic-design portfolio with a public gallery and a Supabase-authe
 
 Run the complete contents of [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase Dashboard's **SQL Editor**. It creates `works`, `messages`, and the managed `categories` list, enables row-level security, and creates the public `portfolio-images` bucket and its policies. If the project is already set up, run the updated SQL again to add the categories table and policies.
 
-The policies allow public portfolio and category reads and contact submissions, while work and category changes, message access, and image uploads/updates/deletes require an authenticated user.
+The policies allow public portfolio and category reads and contact submissions, while work and category changes, message access, and image uploads/updates/deletes require an authenticated user. Admin sessions automatically sign out after 20 minutes without activity; activity is shared across tabs for the same signed-in user.
 
 Admins can add and remove categories from the dashboard. Categories assigned to existing projects cannot be removed until those projects are reassigned, preventing orphaned category values.
 
