@@ -35,7 +35,14 @@ export default function AdminLayout({ children, title, action }) {
         </div>
       </aside>
       <main className="admin-main">
-        <header className="admin-topbar"><span>Hermela Bereket <span>/</span> Studio</span><div className="admin-topbar-actions"><ThemeToggle /><span className="admin-topbar-status"><i /> Admin space</span></div></header>
+        <header className="admin-topbar">
+          <span>Hermela Bereket <span>/</span> Studio</span>
+          <div className="admin-topbar-actions">
+            <ThemeToggle />
+            <span className="admin-topbar-status"><i /> Admin space</span>
+            <button type="button" className="admin-mobile-logout" onClick={handleLogout}>Log out <span aria-hidden="true">↗</span></button>
+          </div>
+        </header>
         <div className="admin-content">
           <div className="admin-heading"><div><span className="eyebrow">Your creative space</span><h1>{title}</h1></div>{action}</div>
           {children}

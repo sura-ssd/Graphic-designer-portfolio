@@ -557,6 +557,7 @@ body { background: var(--paper); }
   outline-offset: 3px;
 }
 .admin-topbar-actions { display: flex; align-items: center; gap: 20px; }
+.admin-mobile-logout { display: none; }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
@@ -639,9 +640,25 @@ body { background: var(--paper); }
 
 @media (max-width: 640px) {
   .nav-links .theme-toggle { justify-self: start; margin-top: 12px; }
-  .admin-topbar-actions { gap: 9px; }
+  .admin-topbar-actions { gap: 8px; }
   .admin-topbar-actions .theme-toggle-label { display: none; }
   .admin-topbar-actions .theme-toggle { width: 35px; min-height: 35px; padding: 0; }
+  .admin-topbar-status { display: none; }
+  .admin-mobile-logout {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 9px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .admin-mobile-logout span { color: var(--accent); }
 }
 
 .hero-art {
